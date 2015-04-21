@@ -1,0 +1,6 @@
+ADDITIONAL NOTES:
+
+- Heap Sort use MAX-heaps
+- Priority Queues use MIN-heaps
+
+This is the reason why there is a mode that must be set.
