@@ -6,5 +6,15 @@ package edu.csupomona.cs.cs241.prog_assgnmnt_1;
  * 4. 
  */
 public class HeapSort {
-
+	
+	public void heapSort() {
+		
+	}
+	
+	public void heapify() {
+		
+	}
+	
+	
+	
 }
