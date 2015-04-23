@@ -19,7 +19,13 @@ public class Customer {
 		priority = initPriority;
 	}
 	
+	public String getName() {
+		return name;
+	}
 	
+	public int getPriority() {
+		return priority;
+	}
 	
 	
 	

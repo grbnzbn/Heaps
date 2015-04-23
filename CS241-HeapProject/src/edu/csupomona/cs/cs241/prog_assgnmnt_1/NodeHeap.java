@@ -58,6 +58,18 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		}
 	}
 	
+	public void siftUp(Node<V> node) {
+		
+	}
+	
+	public void siftDown(Node<V> node) {
+		
+	}
+	
+	private void heapify() {
+		//
+	}
+	
 //	public Node<V> locate(Node newNode) {
 //		
 //		int location = totalNodes;
