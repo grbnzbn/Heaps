@@ -15,8 +15,12 @@ public class Customer {
 	 * 7. Everyone else
 	 */
 	public Customer(String initName, int initPriority) {
-		name = initName;
-		priority = initPriority;
+		this.name = initName;
+		this.priority = initPriority;
+	}
+	
+	public String toString(Customer customer) {
+		return ("Name: " + name + " -- " + "Priority: " + priority);
 	}
 	
 	public String getName() {
@@ -25,9 +29,6 @@ public class Customer {
 	
 	public int getPriority() {
 		return priority;
-	}
-	
-	
-	
+	}	
 	
 }

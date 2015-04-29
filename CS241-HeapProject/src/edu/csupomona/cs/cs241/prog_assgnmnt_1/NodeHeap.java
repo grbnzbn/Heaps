@@ -19,6 +19,17 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		heapStack = new Stack<Node<V>>();
 	}
 	
+//	public static void main(String[] args) {
+//		NodeHeap<Integer> nh = new NodeHeap<Integer>();
+//		nh.add(7);
+//		nh.add(5);
+//		nh.add(23);
+//		nh.add(21);
+//		nh.add(42);
+//		nh.add(41);
+//		nh.add(36);
+//		nh.add(11);
+//	}
 	
 	public void add(V value) { // TODO
 		
@@ -54,6 +65,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 					}
 				} 
 			}// end while loop
+			
 			heapQueue.clear();
 			siftUp(newNode);
 		}
@@ -83,30 +95,36 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	public void siftUp(Node<V> node) { // starts at leaf (POV of child)
 		
 		while (node.value.compareTo(node.parent.value) == 1) {
-			Node<V> tempNode = node.parent;
-			node.parent = node;
-			node = tempNode;
+			V tempValue = node.parent.value;
+			node.parent.value = node.value;
+			node.value = tempValue;
+			
+			siftUp(node.parent);
 		}
 	}
 	
 	
-	public void siftDown() { // starts at root (POV of parent)
+	public void siftDown(Node<V> node) { // starts at root (POV of parent)
 		
-		Node<V> node = root;
-		Node<V> left = root.left;
-		Node<V> right = root.right;
-		Node<V> temp;
+		node = root;
+		V nodeValue = node.value;
+		V leftValue = node.left.value;
+		V rightValue = node.right.value;
+		V tempValue;
 		
-		if (node.value.compareTo(left.value) == -1) {
-			if (left.value.compareTo(right.value) == 1) {
-				temp = node;
-				node = left;
-				left = temp;
-			} else {
-				temp = node;
-				node = right;
-				right = temp;
+		while (!isLeaf(node)) {
+			if (nodeValue.compareTo(leftValue) == -1) {
+				if (leftValue.compareTo(rightValue) == 1) {
+					tempValue = nodeValue;
+					nodeValue = leftValue;
+					leftValue = tempValue;
+				} else {
+					tempValue = nodeValue;
+					nodeValue = rightValue;
+					rightValue = tempValue;
+				}
 			}
+			siftDown(node);
 		}
 	}
 	
@@ -116,7 +134,13 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	}
 
 	
-	public V[] toArray(V[] array) {
+	@SuppressWarnings("unchecked")
+	public V[] toArray(V[] array) { // Turns the heap into an array implementation of a heap
+		
+		V[] result = (V[]) java.lang.reflect.Array.newInstance(array.getClass().getComponentType(), totalNodes);
+
+		
+		
 		return null;
 	}
 
@@ -134,7 +158,17 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	 * - Returns resultant array.
 	 */
 	public V[] getSortedContents(V[] array) {
-		return null;
+		// call toArray (array version of heap)
+		// make a new array that stores the sorted contents
+		// from least to greatest
+		
+		V[] result = null;
+		
+		for (int i = 0; i < totalNodes; i++) {
+			// perform heapsort?
+		}
+		
+		return result;
 	}
 
 	
