@@ -20,6 +20,12 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		heapStack = new Stack<Node>();
 	}
 
+//	public static void main(String[] args) {
+//		NodeHeap nh = new NodeHeap();
+//		nh.add(1);
+//		nh.add(2);
+//	}
+	
 	public void add(V value) { // TODO
 		
 		boolean modified = false;
@@ -31,11 +37,13 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 			lastNode = root;
 		} else {
 			heapQueue.add(root);
-			Node<V> newNode = new Node<V>(value); // next
-			Node<V> tempNode;
+			Node<V> newNode = new Node<V>(value); // incoming node & value
+			Node<V> tempNode; // place holder node
 			
 			while (!modified) {
-				tempNode = heapQueue.poll();
+				
+				tempNode = heapQueue.poll(); // poll removes and returns the value of the removed
+				// the temp node hold the node that is currently being serviced
 				
 				if(tempNode.left == null) {
 					tempNode.left = newNode;
@@ -52,49 +60,88 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 						heapQueue.add(tempNode.right);
 					}
 				} 
-			}
+			}// end while loop
 			heapQueue.clear();
 //			siftUp(newNode);
 		}
 	}
 	
-	public void siftUp(Node<V> node) {
+	public Node<V> visit() { // Locates last element via BFS
+		
+		boolean visited = false;
+		Node<V> foundNode = null;
+		Node<V> tempNode = null;
+		
+		heapQueue.add(root);
+		Node<V> currentNode = heapQueue.poll();
+		
+		while (!visited) {
+			
+			if (!isLeaf(currentNode)) {
+				
+				if (currentNode.left != null) {
+					heapQueue.add(currentNode.left);
+					
+					if (currentNode.right != null) { // not all non leaves have two children
+						heapQueue.add(currentNode.right);
+						tempNode = currentNode.right; // save this node just in case its the last node
+						currentNode = heapQueue.poll();
+					} else { // if currentNode has no RIGHT child
+						foundNode = currentNode.left;
+						visited = true;
+					}
+				} else { // if currentNode has no LEFT child
+					foundNode = tempNode;
+					visited = true;
+				}
+			} 	
+		}
+		heapQueue.clear();
+		return foundNode;
+	}
+	
+	public void siftUp(Node<V> node) { // starts at leaf (POV of child)
+		
+		boolean modified =  false;
+		Node<V> tempNode = node;
+		
+		while (!modified) {
+			if (tempNode.parent.value.compareTo(tempNode.value) == 0) {
+				
+			}
+		}
+	}
+	
+	public void siftDown() { // starts at root (POV of parent)
+			
+		boolean modified = false;
+		Node<V> tempNode = root;
+		V tempValue;
+		
+		while (!isLeaf(tempNode)) {
+			if (tempNode.left.value.compareTo(tempNode.value) > 0) { // compares parent to left child
+				if (tempNode.left.value.compareTo(tempNode.right.value) < 0) { // if left value < right value
+					tempValue = tempNode.value;
+					tempNode.value = tempNode.right.value; // parent value = right child value
+					tempNode.right.value = tempValue; // right child value = parent value
+				} else { // if left value > right
+					tempValue = tempNode.value;
+					tempNode.value = tempNode.left.value;
+					tempNode.left.value =  tempValue;
+				}
+			} else if (tempNode.right.value.compareTo(tempNode.value) > 0) { // compares parent to right child
+				
+			}
+		}
+	}
+	
+	public boolean isLeaf(Node<V> node) {
+		return node.left == null && node.right == null;
+	}
+	
+	private void heapify() { // uses stack?
 		
 	}
-	
-	public void siftDown(Node<V> node) {
-		
-	}
-	
-	private void heapify() {
-		//
-	}
-	
-//	public Node<V> locate(Node newNode) {
-//		
-//		int location = totalNodes;
-//		int level = (int) Math.floor(Math.log(location) / Math.log(2));
-//		int levelCap = (int) Math.pow(2, level);
-//		int treeCap = (int) Math.pow(2, level + 1) - 1;
-//		int foundNode = levelCap - (treeCap - location); // node's spot in level (offset)
-//		
-//		while (level > 0) {
-//			if (foundNode % 2 == 1) { // it is left child
-//				lastNode.left = newNode;
-//			} else { 				  // it is right child
-//				lastNode.right = newNode;
-//			}
-//			
-//			
-//			// +====================== WHAT DO I DO HERE
-//			double percent = foundNode / levelCap;
-//			levelCap = levelCap / 2;
-//			foundNode = (int) Math.ceil(percent * levelCap);
-//			level--;
-//		}
-//		
-//		return newNode;
-//	}
 
 	/*
 	 * Returns component type
@@ -105,13 +152,28 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 
 	
 	public V remove() {
+		
 		V removedValue = root.value;
-		root = null;
 		
-		// search for lastElem
-		// root = lastElem
-		// siftDown(root);
-		
+		if (root != null) { // checks if a tree exists
+			root.value = null;
+			
+			while (root.value == null) {
+				//Node<V> tempNode = visit();
+				V tempValue = visit().value;
+				root.value = tempValue;
+				visit().parent.right = null;
+				
+				if (visit().parent.left != null) {
+					if (visit().parent.right != null) {
+						visit().parent.right = null;
+					} else {
+						visit().parent.left = null;
+					}
+				} // end check for which child is the last node
+			} // end swap
+			// siftDown(root);
+		} // end procedure
 		return removedValue;
 	}
 
