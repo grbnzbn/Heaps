@@ -14,6 +14,4 @@ public interface Heap<V extends Comparable<V>> {
 
 	public V[] getSortedContents(V[] array);
 	
-	
-	
 }
