@@ -21,8 +21,8 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		heapStack = new Stack<Node<V>>();
 	}
 	
-//	public static void main(String[] args) {
-//		NodeHeap<Integer> nh = new NodeHeap<Integer>();
+	public static void main(String[] args) {
+		NodeHeap<Integer> nh = new NodeHeap<Integer>();
 //		nh.add(7);
 //		nh.add(5);
 //		nh.add(23);
@@ -31,7 +31,17 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 //		nh.add(41);
 //		nh.add(36);
 //		nh.add(11);
-//	}
+		
+		Integer test[] = {80,39,38,65,36,95,14,80,6,10,41,27,35,75,83,97,56,71,36,53,91,73,18,3,67};
+		nh.fromArray(test);
+		
+		Integer[] array = new Integer[1];
+		array = nh.toArray(array);
+
+		for (int i = 0; i < array.length; i++) {
+			System.out.println(array[i]);
+		}
+	}
 	
 	public void add(V value) { 
 		
@@ -107,14 +117,41 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	
 	public void siftUp(Node<V> node) { // starts at leaf (POV of child)
+
+		boolean modified = false;
 		
-		while (node.value.compareTo(node.parent.value) == 1) {
-			V tempValue = node.parent.value;
-			node.parent.value = node.value;
-			node.value = tempValue;
-			
-			node = node.parent; // THERE IS A GOD. SWAP THE VALUES but UPDATE THE NODE
-		}
+			while (!modified) {
+				
+				if (node.value.compareTo(node.parent.value) == 1) {
+					V tempValue = node.parent.value;
+					node.parent.value = node.value;
+					node.value = tempValue;
+					
+					node = node.parent; // THERE IS A GOD. SWAP THE VALUES but UPDATE THE NODE
+					
+					if (node.parent == null) {
+						modified = true;
+					}
+				} else {
+					modified = true;
+				}
+			}
+		
+
+//		boolean modified = false;
+//		
+//			while (node.value.compareTo(node.parent.value) == 1) {
+//					
+//				V tempValue = node.parent.value;
+//				node.parent.value = node.value;
+//				node.value = tempValue;
+//				
+//				node = node.parent; // THERE IS A GOD. SWAP THE VALUES but UPDATE THE NODE
+//				
+//				if (node.parent == null) {
+//					modified = true;
+//				}
+//			}
 	}
 	
 	
