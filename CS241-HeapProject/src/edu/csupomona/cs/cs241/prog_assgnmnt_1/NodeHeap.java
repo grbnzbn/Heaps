@@ -99,33 +99,62 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 			node.parent.value = node.value;
 			node.value = tempValue;
 			
-			siftUp(node.parent);
+			node = node.parent; // THERE IS A GOD. SWAP THE VALUES but UPDATE THE NODE
+			//siftUp(node.parent);
 		}
 	}
 	
 	
 	public void siftDown(Node<V> node) { // starts at root (POV of parent)
 		
+		boolean modified = false;
 		node = root;
-		V nodeValue = node.value;
-		V leftValue = node.left.value;
-		V rightValue = node.right.value;
+		Node<V> tempNode;
 		V tempValue;
 		
-		while (!isLeaf(node)) {
-			if (nodeValue.compareTo(leftValue) == -1) {
-				if (leftValue.compareTo(rightValue) == 1) {
-					tempValue = nodeValue;
-					nodeValue = leftValue;
-					leftValue = tempValue;
-				} else {
-					tempValue = nodeValue;
-					nodeValue = rightValue;
-					rightValue = tempValue;
+		while (!modified) {
+			if (!isLeaf(node)) { // (node.left == null) && (node.right == null)
+				if (node.value.compareTo(node.left.value) == -1) { // if the node value < left value
+					if (node.right != null) { // if there is a right 
+						if (node.left.value.compareTo(node.right.value) == 1) { // compare if left > right
+							tempValue = node.value;
+							node.value = node.left.value;
+							node.left.value = tempValue;
+							modified = true;
+						} else {
+							tempValue = node.value;
+							node.value = node.right.value;
+							node.left.value = tempValue;
+							modified = true;
+						}
+					}
+					// swap node value and left value
 				}
 			}
-			siftDown(node);
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+//		while (!isLeaf(node)) {
+//			if (nodeValue.compareTo(leftValue) == -1) { // checks max heap property
+//				if (leftValue.compareTo(rightValue) == 1) { // if left > right
+//					tempValue = nodeValue;
+//					nodeValue = leftValue;
+//					leftValue = tempValue;
+//				} else { // else if right > left
+//					tempValue = nodeValue;
+//					nodeValue = rightValue;
+//					rightValue = tempValue;
+//				}
+//				
+//			}
+//			siftDown(node);
+//		}
 	}
 	
 	
@@ -138,10 +167,25 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	public V[] toArray(V[] array) { // Turns the heap into an array implementation of a heap
 		
 		V[] result = (V[]) java.lang.reflect.Array.newInstance(array.getClass().getComponentType(), totalNodes);
-
+		Node<V> tempNode;
 		
-		
-		return null;
+		if (root != null) {
+			heapQueue.add(root);
+			
+			for (int i = 0; i < totalNodes; i++) {
+				tempNode = heapQueue.poll();
+				result[i] = tempNode.value;
+				
+				if (tempNode.left != null) {
+					heapQueue.add(tempNode.left);
+					
+					if (tempNode.right != null) {
+						heapQueue.add(tempNode.right);
+					}
+				}
+			} // end for loop
+		}
+		return result;
 	}
 
 	
@@ -181,7 +225,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		return (node.left == null) && (node.right == null);
 	}
 
-	// Nested Class
+
 	@SuppressWarnings("hiding")
 	private class Node<V extends Comparable<V>> {
 
