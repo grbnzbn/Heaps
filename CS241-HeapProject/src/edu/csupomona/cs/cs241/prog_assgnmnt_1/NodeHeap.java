@@ -33,7 +33,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 //		nh.add(11);
 //	}
 	
-	public void add(V value) { // TODO
+	public void add(V value) { 
 		
 		boolean modified = false;
 		
@@ -114,73 +114,34 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 			node.value = tempValue;
 			
 			node = node.parent; // THERE IS A GOD. SWAP THE VALUES but UPDATE THE NODE
-			//siftUp(node.parent);
 		}
 	}
 	
 	
-	public void siftDown(Node<V> node) { // starts at root (POV of parent)
+	public void siftDown() { // starts at root (POV of parent)
 		
-		node = root;
-		Node<V> tempNode;
+		Node<V> node = root;
 		V tempValue;
 		
-		while (node.value.compareTo(node.left.value) == -1) {
-			if (!isLeaf(node)) { // (node.left == null) && (node.right == null)
-				if (node.value.compareTo(node.left.value) == -1) { // if the node value < left value
-					if (node.right != null) { // if there is a right 
-						if (node.left.value.compareTo(node.right.value) == 1) { // compare if left > right
-							tempValue = node.value; // if true, then swap with left
-							node.value = node.left.value;
-							node.left.value = tempValue;
-							
-							node = node.left;
-						} else { // else, swap with right
-							tempValue = node.value;
-							node.value = node.right.value;
-							node.left.value = tempValue;
-							
-							node = node.right;
-						}
-					} else {
+		if (root != null) { // check if tree exists
+			if (!isLeaf(node)) { // if root has children
+				while (node.value.compareTo(node.left.value) == -1 || node.value.compareTo(node.right.value) == -1) {
+					if (node.left.value.compareTo(node.right.value) >= 0) { // if left > right, swap left
 						tempValue = node.value;
 						node.value = node.left.value;
 						node.left.value = tempValue;
 						
 						node = node.left;
+					} else { // else right > left, swap right
+						tempValue = node.value;
+						node.value = node.right.value;
+						node.right.value = tempValue;
+						
+						node = node.right;
 					}
-					// swap node value and left value
 				}
 			}
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-//		while (!isLeaf(node)) {
-//			if (nodeValue.compareTo(leftValue) == -1) { // checks max heap property
-//				if (leftValue.compareTo(rightValue) == 1) { // if left > right
-//					tempValue = nodeValue;
-//					nodeValue = leftValue;
-//					leftValue = tempValue;
-//				} else { // else if right > left
-//					tempValue = nodeValue;
-//					nodeValue = rightValue;
-//					rightValue = tempValue;
-//				}
-//				
-//			}
-//			siftDown(node);
-//		}
-	}
-	
-	
-	private void heapify() { // uses stack?
-		
 	}
 
 	
@@ -222,7 +183,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	 * - Performs Heap-Sort on the array
 	 * - Returns resultant array.
 	 */
-	public V[] getSortedContents(V[] array) {
+	public V[] getSortedContents(V[] array) { // TODO
 		// call toArray (array version of heap)
 		// make a new array that stores the sorted contents
 		// from least to greatest
