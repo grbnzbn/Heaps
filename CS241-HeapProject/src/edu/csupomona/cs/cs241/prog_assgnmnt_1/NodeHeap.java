@@ -46,6 +46,10 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		System.out.println("-- removal process --");
 		
 		nh.remove();
+		array = nh.toArray(array);
+		for (int i = 0; i < array.length; i++) {
+			System.out.print(array[i] + " - ");
+		}
 	}
 	
 	public void add(V value) { 
@@ -91,6 +95,8 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	public V remove() { // TODO
 		
+		totalNodes --; // FIXME
+		
 		V removedValue = null;
 		Node<V> currentNode;
 		Node<V> tempNode = null;
@@ -112,17 +118,18 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 						if (currentNode.right != null) {
 							heapQueue.add(currentNode.right);
 							tempNode = currentNode.right;
+						} else {
+							tempNode = currentNode.left;
 						}
-						tempNode = currentNode.left;
 					}
 				} else {
 					root.value = tempNode.value;
-					tempNode = null;
+					tempNode = null; // FIXME
 				}
 			} // end swap
+			heapQueue.clear();
 			siftDown();
 		} // end procedure
-		heapQueue.clear();
 		return removedValue;
 	}
 	
@@ -172,25 +179,63 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		Node<V> node = root;
 		V tempValue;
 		
-		if (root != null) { // check if tree exists
-			if (!isLeaf(node)) { // if root has children
-				while (node.value.compareTo(node.left.value) == -1 || node.value.compareTo(node.right.value) == -1) {
-					if (node.left.value.compareTo(node.right.value) >= 0) { // if left > right, swap left
+		if (root != null && !isLeaf(node)) {
+			
+			while (!modified) {
+				
+				if (node.left != null) {
+					if (node.right != null) {
+						if (node.value.compareTo(node.left.value) == -1 || node.value.compareTo(node.right.value) == -1) { // if both exists
+							if (node.left.value.compareTo(node.right.value) >= 0) { // if left > right, swap left
+								tempValue = node.value;
+								node.value = node.left.value;
+								node.left.value = tempValue;
+
+								node = node.left;
+							} else { // else right > left, swap right
+								tempValue = node.value;
+								node.value = node.right.value;
+								node.right.value = tempValue;
+
+								node = node.right;
+							}
+						} // end 
+					} else if (node.value.compareTo(node.left.value) == -1) { // if there is no right child, check if its greater
 						tempValue = node.value;
 						node.value = node.left.value;
 						node.left.value = tempValue;
-						
-						node = node.left;
-					} else { // else right > left, swap right
-						tempValue = node.value;
-						node.value = node.right.value;
-						node.right.value = tempValue;
-						
-						node = node.right;
+					} else {
+						modified = true;
 					}
+				} else {
+					modified = true;
 				}
-			}
+			} // end while loop
 		}
+		
+//		if (root != null) { // check if tree exists
+//			if (!isLeaf(node)) { // if root has children
+//				while (!modified) {
+//					
+//					if (node.value.compareTo(node.left.value) == -1 || node.value.compareTo(node.right.value) == -1) {
+//						if (node.left.value.compareTo(node.right.value) >= 0) { // if left > right, swap left
+//							tempValue = node.value;
+//							node.value = node.left.value;
+//							node.left.value = tempValue;
+//							
+//							node = node.left;
+//						} else { // else right > left, swap right
+//							tempValue = node.value;
+//							node.value = node.right.value;
+//							node.right.value = tempValue;
+//							
+//							node = node.right;
+//						}
+//					}
+//					
+//				}
+//			}
+//		}
 	}
 
 	
