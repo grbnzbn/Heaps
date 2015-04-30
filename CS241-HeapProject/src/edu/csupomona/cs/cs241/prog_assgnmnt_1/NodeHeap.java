@@ -11,6 +11,8 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	private Stack<Node<V>> heapStack;
 	
 	private Node<V> root;
+	private Node<V> insert; // last inserted node
+	private Node<V> last; // last node
 	private int totalNodes = 0;
 	
 	public NodeHeap() {
@@ -75,15 +77,27 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	public V remove() { // TODO
 		
 		V removedValue = null;
+		V tempValue;
+		Node<V> tempNode;
 		
 		if (root != null) { // checks if a tree exists
 			
 			removedValue = root.value;
+			heapQueue.add(root);
 			root.value = null;
 			
-			while (root.value == null) {
+			while (root.value == null) { // what about isLeaf?
+
+				tempNode = heapQueue.poll();
 				
-				V tempValue;
+				if (tempNode.left != null) {
+					heapQueue.add(tempNode.left);
+					
+					if (tempNode.right != null) {
+						heapQueue.add(tempNode.right);
+					}
+				}
+				
 				
 			} // end swap
 			// siftDown(root);
@@ -107,26 +121,33 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	public void siftDown(Node<V> node) { // starts at root (POV of parent)
 		
-		boolean modified = false;
 		node = root;
 		Node<V> tempNode;
 		V tempValue;
 		
-		while (!modified) {
+		while (node.value.compareTo(node.left.value) == -1) {
 			if (!isLeaf(node)) { // (node.left == null) && (node.right == null)
 				if (node.value.compareTo(node.left.value) == -1) { // if the node value < left value
 					if (node.right != null) { // if there is a right 
 						if (node.left.value.compareTo(node.right.value) == 1) { // compare if left > right
-							tempValue = node.value;
+							tempValue = node.value; // if true, then swap with left
 							node.value = node.left.value;
 							node.left.value = tempValue;
-							modified = true;
-						} else {
+							
+							node = node.left;
+						} else { // else, swap with right
 							tempValue = node.value;
 							node.value = node.right.value;
 							node.left.value = tempValue;
-							modified = true;
+							
+							node = node.right;
 						}
+					} else {
+						tempValue = node.value;
+						node.value = node.left.value;
+						node.left.value = tempValue;
+						
+						node = node.left;
 					}
 					// swap node value and left value
 				}
@@ -223,6 +244,10 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	public boolean isLeaf(Node<V> node) {
 		return (node.left == null) && (node.right == null);
+	}
+	
+	public Node<V> getLast() { // TODO
+		return null;
 	}
 
 
