@@ -50,7 +50,18 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		for (int i = 0; i < array.length; i++) {
 			System.out.print(array[i] + " - ");
 		}
+		
+		System.out.println();
+		System.out.println("-- removal process --");
+		
+		nh.remove();
+		array = nh.toArray(array);
+		for (int i = 0; i < array.length; i++) {
+			System.out.print(array[i] + " - ");
+		}
 	}
+	
+	// +====================================================================
 	
 	public void add(V value) { 
 		
@@ -93,7 +104,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	}
 	
 	
-	public V remove() { // TODO
+	public V remove() {
 		
 		totalNodes --; // FIXME
 		
@@ -154,22 +165,6 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 					modified = true;
 				}
 			}
-		
-
-//		boolean modified = false;
-//		
-//			while (node.value.compareTo(node.parent.value) == 1) {
-//					
-//				V tempValue = node.parent.value;
-//				node.parent.value = node.value;
-//				node.value = tempValue;
-//				
-//				node = node.parent; // THERE IS A GOD. SWAP THE VALUES but UPDATE THE NODE
-//				
-//				if (node.parent == null) {
-//					modified = true;
-//				}
-//			}
 	}
 	
 	
@@ -212,30 +207,6 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 				}
 			} // end while loop
 		}
-		
-//		if (root != null) { // check if tree exists
-//			if (!isLeaf(node)) { // if root has children
-//				while (!modified) {
-//					
-//					if (node.value.compareTo(node.left.value) == -1 || node.value.compareTo(node.right.value) == -1) {
-//						if (node.left.value.compareTo(node.right.value) >= 0) { // if left > right, swap left
-//							tempValue = node.value;
-//							node.value = node.left.value;
-//							node.left.value = tempValue;
-//							
-//							node = node.left;
-//						} else { // else right > left, swap right
-//							tempValue = node.value;
-//							node.value = node.right.value;
-//							node.right.value = tempValue;
-//							
-//							node = node.right;
-//						}
-//					}
-//					
-//				}
-//			}
-//		}
 	}
 
 	
@@ -278,15 +249,16 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	 * - Performs Heap-Sort on the array
 	 * - Returns resultant array.
 	 */
+	@SuppressWarnings("unchecked")
 	public V[] getSortedContents(V[] array) { // TODO
 		// call toArray (array version of heap)
 		// make a new array that stores the sorted contents
 		// from least to greatest
-		
-		V[] result = null;
+		HeapSort hs = new HeapSort();
+		V[] result = toArray(array);
+		hs.heapSort(result);
 		
 		for (int i = 0; i < totalNodes; i++) {
-			// perform heapsort?
 		}
 		
 		return result;
@@ -304,6 +276,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	
 	public Node<V> getLast() { // TODO
+		// this is important for obtaining O(logn)
 		return null;
 	}
 

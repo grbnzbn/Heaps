@@ -1,17 +1,21 @@
 package edu.csupomona.cs.cs241.prog_assgnmnt_1;
 
-/* 1. Build MAX Heap on the input
- * 2. 
- * 3. Rebuild using Max Heapify
- * 4. 
- */
-public class HeapSort {
+public class HeapSort<V extends Comparable<V>> {
 	
-	public void heapSort() {
+	private NodeHeap nh = new NodeHeap();
+	
+	public void heapSort(V[] array) {
 		
 	}
 	
-	public void heapify() {
+	public void swap() {
 		
 	}
+
+//	public void swap(V[] array, int k) {
+//		V temp;
+//		temp = array[k];
+//		array[k] = array[k+1];
+//		array[k+1] = temp;
+//	}
 }
