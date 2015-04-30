@@ -19,6 +19,40 @@ public Node<V> visit() {
 	
 }
 
+public Node<V> visit() { // Locates last element via BFS
+ 		
++		boolean visited = false;
++		Node<V> foundNode = null;
++		Node<V> tempNode = null;
++		
++		heapQueue.add(root);
++		Node<V> currentNode = heapQueue.poll();
++		
++		while (!visited) {
++			
++			if (!isLeaf(currentNode)) {
++				
++				if (currentNode.left != null) {
++					heapQueue.add(currentNode.left);
++					
++					if (currentNode.right != null) { // not all non leaves have two children
++						heapQueue.add(currentNode.right);
++						tempNode = currentNode.right; // save this node just in case its the last node
++						currentNode = heapQueue.poll();
++					} else { // if currentNode has no RIGHT child
++						foundNode = currentNode.left;
++						visited = true;
++					}
++				} else { // if currentNode has no LEFT child
++					foundNode = tempNode;
++					visited = true;
++				}
++			} 	
++		}
++		heapQueue.clear();
++		return foundNode;
+ 	}
+
 //	public Node<V> locate(Node newNode) {
 //		
 //		int location = totalNodes;

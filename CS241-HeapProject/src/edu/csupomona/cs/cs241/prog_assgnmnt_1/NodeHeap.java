@@ -23,24 +23,29 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	public static void main(String[] args) {
 		NodeHeap<Integer> nh = new NodeHeap<Integer>();
-//		nh.add(7);
-//		nh.add(5);
-//		nh.add(23);
-//		nh.add(21);
-//		nh.add(42);
-//		nh.add(41);
-//		nh.add(36);
-//		nh.add(11);
+		nh.add(7);
+		nh.add(5);
+		nh.add(23);
+		nh.add(21);
+		nh.add(42);
+		nh.add(41);
+		nh.add(36);
+		nh.add(11);
 		
-		Integer test[] = {80,39,38,65,36,95,14,80,6,10,41,27,35,75,83,97,56,71,36,53,91,73,18,3,67};
-		nh.fromArray(test);
+//		Integer test[] = {80,39,38,65,36,95,14,80,6,10,41,27,35,75,83,97,56,71,36,53,91,73,18,3,67};
+//		nh.fromArray(test);
 		
 		Integer[] array = new Integer[1];
 		array = nh.toArray(array);
 
 		for (int i = 0; i < array.length; i++) {
-			System.out.println(array[i]);
+			System.out.print(array[i] + " - ");
 		}
+		
+		System.out.println();
+		System.out.println("-- removal process --");
+		
+		nh.remove();
 	}
 	
 	public void add(V value) { 
@@ -87,31 +92,37 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	public V remove() { // TODO
 		
 		V removedValue = null;
-		V tempValue;
-		Node<V> tempNode;
+		Node<V> currentNode;
+		Node<V> tempNode = null;
 		
 		if (root != null) { // checks if a tree exists
-			
+
 			removedValue = root.value;
 			heapQueue.add(root);
 			root.value = null;
 			
-			while (root.value == null) { // what about isLeaf?
-
-				tempNode = heapQueue.poll();
+			while (root.value == null) { 			
 				
-				if (tempNode.left != null) {
-					heapQueue.add(tempNode.left);
-					
-					if (tempNode.right != null) {
-						heapQueue.add(tempNode.right);
+				if (!heapQueue.isEmpty()) {
+					currentNode = heapQueue.poll();
+				
+					if (currentNode.left != null) {
+						heapQueue.add(currentNode.left);
+						
+						if (currentNode.right != null) {
+							heapQueue.add(currentNode.right);
+							tempNode = currentNode.right;
+						}
+						tempNode = currentNode.left;
 					}
+				} else {
+					root.value = tempNode.value;
+					tempNode = null;
 				}
-				
-				
 			} // end swap
-			// siftDown(root);
+			siftDown();
 		} // end procedure
+		heapQueue.clear();
 		return removedValue;
 	}
 	
@@ -157,6 +168,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	public void siftDown() { // starts at root (POV of parent)
 		
+		boolean modified = false;
 		Node<V> node = root;
 		V tempValue;
 		
@@ -204,6 +216,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 				}
 			} // end for loop
 		}
+		heapQueue.clear();
 		return result;
 	}
 
@@ -243,6 +256,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	public boolean isLeaf(Node<V> node) {
 		return (node.left == null) && (node.right == null);
 	}
+	
 	
 	public Node<V> getLast() { // TODO
 		return null;
