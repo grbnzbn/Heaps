@@ -251,11 +251,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		}
 	}
 
-	
-	// call toArray (array version of heap)
-	// make a new array that stores the sorted contents
-	// from least to greatest
-	public V[] getSortedContents(V[] array) { // TODO
+	public V[] getSortedContents(V[] array) {
 		
 		V[] result = null;
 		
@@ -265,17 +261,22 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		return result;
 	}
 
-	
 	public V peek() {
 		return root.value;
 	}
-	
 	
 	public boolean isLeaf(Node<V> node) {
 		return (node.left == null) && (node.right == null);
 	}
 	
-	public int getTotalNodes() {
+	public boolean isEmpty() {
+		if (root != null) {
+			return false;
+		}
+		return true;
+	}
+	
+	public int getCount() {
 		return count;
 	}
 	
