@@ -1,6 +1,20 @@
 README
++Project Description:
+The purpose of this assignment is helping you understand the nuances of 
+the heap data structure studied in class. 
 
-Project Description:
-Individual Information:
-Project Approach:
-Conclusion:
++Individual Information:
+Daniel Gamboa
+
++Project Approach & Conclusion:
+I approached the project like most others except this time, I spent a significant amount more time working on it 
+immediately after it was assigned. In regards to implementing the NodeHeap.class, completing the toArray() and
+the fromArray() were by far the easiest that they could be done without any of the other methods being complete.
+I did however spend the most time programming the add(), remove(), siftDown(), and heapSort().
+Though I say that I spent a lot of time on the add() and remove(), it doesn't show because I kept trying multiple
+ways of implementing them so that they maintained the complexity of O(logn). Also, I really got to experience just
+how troublesome recursion can be if not done properly. Overall, I feel I learned the most during this programming
+project compared to the other two completed in CS 240 but I also feel like I performed the worst. I wasn't able to
+complete the portion of the project where I maintain the complexity because I tried so hard to try to do it in a more 
+unconventional manner which ended up wasting a lot of my time. Next time I should just focus on getting the program
+to work and then refine it rather than trying to refine it every step of the way. 
