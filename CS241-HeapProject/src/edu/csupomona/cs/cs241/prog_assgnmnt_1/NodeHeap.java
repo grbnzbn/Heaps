@@ -13,7 +13,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	private Node<V> root;
 	private Node<V> insert; // last inserted node
 	private Node<V> last; // last node
-	private int totalNodes = 0;
+	private int count = 0;
 	
 	public NodeHeap() {
 		mode = Heap.MODE.MAX;
@@ -67,7 +67,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		
 		boolean modified = false;
 		
-		totalNodes++;
+		count++;
 		
 		if (root == null) {
 			root = new Node<V>(value);
@@ -106,7 +106,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	public V remove() {
 		
-		totalNodes --; // FIXME
+		count --; // FIXME
 		
 		V removedValue = null;
 		Node<V> currentNode;
@@ -213,13 +213,13 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	@SuppressWarnings("unchecked")
 	public V[] toArray(V[] array) { // Turns the heap into an array implementation of a heap
 		
-		V[] result = (V[]) java.lang.reflect.Array.newInstance(array.getClass().getComponentType(), totalNodes);
+		V[] result = (V[]) java.lang.reflect.Array.newInstance(array.getClass().getComponentType(), count);
 		Node<V> tempNode;
 		
 		if (root != null) {
 			heapQueue.add(root);
 			
-			for (int i = 0; i < totalNodes; i++) {
+			for (int i = 0; i < count; i++) {
 				tempNode = heapQueue.poll();
 				result[i] = tempNode.value;
 				
@@ -245,21 +245,16 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	}
 
 	
-	/* - Internally transforms the heap into array representation
-	 * - Performs Heap-Sort on the array
-	 * - Returns resultant array.
-	 */
-	@SuppressWarnings("unchecked")
+	// call toArray (array version of heap)
+	// make a new array that stores the sorted contents
+	// from least to greatest
 	public V[] getSortedContents(V[] array) { // TODO
-		// call toArray (array version of heap)
-		// make a new array that stores the sorted contents
-		// from least to greatest
-		HeapSort hs = new HeapSort();
-		V[] result = toArray(array);
-		hs.heapSort(result);
 		
-		for (int i = 0; i < totalNodes; i++) {
-		}
+		V[] result = null;
+		
+		HeapSort<V> hs = new HeapSort<V>();
+		V[] arrayHeap = toArray(array);
+		result = hs.heapSort(arrayHeap, count);
 		
 		return result;
 	}
@@ -272,6 +267,10 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	public boolean isLeaf(Node<V> node) {
 		return (node.left == null) && (node.right == null);
+	}
+	
+	public int getTotalNodes() {
+		return count;
 	}
 	
 	
