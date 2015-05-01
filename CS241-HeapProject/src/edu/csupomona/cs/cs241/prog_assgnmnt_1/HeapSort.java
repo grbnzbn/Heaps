@@ -4,57 +4,59 @@ public class HeapSort<V extends Comparable<V>> {
 	
 	
 	public V[] heapSort(V[] array, int count) {
-		
+
 		V[] result = null;
-		final int lastIndex = (count - 1);
 		int end = (count - 1);
-		
+
 		if (count > 0) { // makes sure there are things to sort
 			while (end > 0) {
 				swap(array, 0, end);
 				end--;
-				siftDown(array, 0, end);
+				siftDown(array, end);
 			}
 			result = array;
 		}
 		return result;
 	}
-	
-	public void siftDown(V[] array, int index, int end) {
 
-		int left;
-		int right;
-		int swapIndex = 0;
+	public void siftDown(V[] array, int end) {
 
-		if (index <= ((end - 1) / 2)) {
-			left = 2 * index + 1;
+		int bound = end + 1;
+		int index = 0;
+		int swapIndex;
 
-			if (index <= end) {
-				right = 2 * index + 2;
-
-				if (((V) array[index]).compareTo((V) array[left]) == -1	|| ((V) array[index]).compareTo((V) array[right]) == -1) {
-					if (((V) array[left]).compareTo((V) array[right]) >= 0) {
-						swap(array, index, left);
-						swapIndex = left;
-					} else {
-						swap(array, index, right);
-						swapIndex = right;
-					}
+		while (left(index) < bound || right(index) < bound) {
+			if (right(index) < bound) {
+				if (array[left(index)].compareTo(array[right(index)]) >= 0) {
+					swapIndex = left(index);
+				} else {
+					swapIndex = right(index);
 				}
-
-			} else if (((V) array[index]).compareTo((V) array[left]) == -1) {
-				swap(array, index, left);
-				swapIndex = left;
+			} else {
+				swapIndex = left(index);
 			}
-			siftDown(array, swapIndex, end);
+			if (array[index].compareTo(array[swapIndex]) == -1) {
+				swap(array, index, swapIndex);
+				index = swapIndex;
+			} else {
+				break;
+			}
 		}
-	} // end top if
-	
+
+	}
+
+	private int left(int n) {
+		return ((n * 2) + 1);
+	}
+
+	private int right(int n) {
+		return ((n * 2) + 2);
+	}
 
 	private void swap(V[] array, int i, int j) {
 		V temp = array[i];
 		array[i] = array[j];
 		array[j] = temp;
 	}
-	
+
 }
