@@ -39,26 +39,33 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		array = nh.toArray(array);
 
 		for (int i = 0; i < array.length; i++) {
-			System.out.print(array[i] + " - ");
+			System.out.print(array[i] + "-");
 		}
 		
 		System.out.println();
-		System.out.println("-- removal process --");
+		array = nh.getSortedContents(array);
 		
-		nh.remove();
-		array = nh.toArray(array);
 		for (int i = 0; i < array.length; i++) {
-			System.out.print(array[i] + " - ");
+			System.out.print(array[i] + "-");
 		}
 		
-		System.out.println();
-		System.out.println("-- removal process --");
-		
-		nh.remove();
-		array = nh.toArray(array);
-		for (int i = 0; i < array.length; i++) {
-			System.out.print(array[i] + " - ");
-		}
+//		System.out.println();
+//		System.out.println("-- removal process --");
+//		
+//		nh.remove();
+//		array = nh.toArray(array);
+//		for (int i = 0; i < array.length; i++) {
+//			System.out.print(array[i] + " - ");
+//		}
+//		
+//		System.out.println();
+//		System.out.println("-- removal process --");
+//		
+//		nh.remove();
+//		array = nh.toArray(array);
+//		for (int i = 0; i < array.length; i++) {
+//			System.out.print(array[i] + " - ");
+//		}
 	}
 	
 	// +====================================================================
@@ -169,33 +176,33 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	
 	public void siftDown() { // starts at root (POV of parent)
-		
+
 		boolean modified = false;
 		Node<V> node = root;
 		V tempValue;
-		
+
 		if (root != null && !isLeaf(node)) {
-			
+
 			while (!modified) {
-				
+
 				if (node.left != null) {
 					if (node.right != null) {
-						if (node.value.compareTo(node.left.value) == -1 || node.value.compareTo(node.right.value) == -1) { // if both exists
-							if (node.left.value.compareTo(node.right.value) >= 0) { // if left > right, swap left
+						if (node.value.compareTo(node.left.value) == -1	|| node.value.compareTo(node.right.value) == -1) {
+							if (node.left.value.compareTo(node.right.value) >= 0) {
 								tempValue = node.value;
 								node.value = node.left.value;
 								node.left.value = tempValue;
 
 								node = node.left;
-							} else { // else right > left, swap right
+							} else {
 								tempValue = node.value;
 								node.value = node.right.value;
 								node.right.value = tempValue;
 
 								node = node.right;
 							}
-						} // end 
-					} else if (node.value.compareTo(node.left.value) == -1) { // if there is no right child, check if its greater
+						} // end
+					} else if (node.value.compareTo(node.left.value) == -1) {
 						tempValue = node.value;
 						node.value = node.left.value;
 						node.left.value = tempValue;
@@ -253,8 +260,7 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 		V[] result = null;
 		
 		HeapSort<V> hs = new HeapSort<V>();
-		V[] arrayHeap = toArray(array);
-		result = hs.heapSort(arrayHeap, count);
+		result = hs.heapSort(array, count);
 		
 		return result;
 	}

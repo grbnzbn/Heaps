@@ -15,54 +15,40 @@ public class HeapSort<V extends Comparable<V>> {
 				end--;
 				siftDown(array, 0, end);
 			}
-			
 			result = array;
 		}
-		
 		return result;
 	}
 	
 	public void siftDown(V[] array, int index, int end) {
-		// unsorted represents the updated lastIndex
-		boolean modified = false;
+
 		int left;
 		int right;
 		int swapIndex = 0;
-		
-		while (!modified) {
-			
-			if (index <= ((end - 1) / 2)) {
-					left = 2 * index + 1;
-					
-					if (left <= end) {
-						right = 2 * index + 2;
-						
-						if (((V) array[index]).compareTo((V) array[left]) == -1 || ((V) array[index]).compareTo((V) array[right]) == -1) {
-							if (((V) array[left]).compareTo((V) array[right]) >= 0) {
-								swap(array, index, left);
-								swapIndex = left;
-								modified = true;
-							} else {
-								swap(array, index, right);
-								swapIndex = right;
-								modified = true;
-							}
-						} else {
-							modified = true;
-						}
-					} else if (((V) array[index]).compareTo((V) array[left]) == -1) {
+
+		if (index <= ((end - 1) / 2)) {
+			left = 2 * index + 1;
+
+			if (index <= end) {
+				right = 2 * index + 2;
+
+				if (((V) array[index]).compareTo((V) array[left]) == -1	|| ((V) array[index]).compareTo((V) array[right]) == -1) {
+					if (((V) array[left]).compareTo((V) array[right]) >= 0) {
 						swap(array, index, left);
 						swapIndex = left;
-						modified = true;
 					} else {
-						modified = true;
+						swap(array, index, right);
+						swapIndex = right;
 					}
+				}
+
+			} else if (((V) array[index]).compareTo((V) array[left]) == -1) {
+				swap(array, index, left);
+				swapIndex = left;
 			}
+			siftDown(array, swapIndex, end);
 		}
-		siftDown(array, swapIndex, end);
-	}
-		
-		
+	} // end top if
 	
 
 	private void swap(V[] array, int i, int j) {
