@@ -83,6 +83,29 @@ public class NodeHeap<V extends Comparable<V>> implements Heap<V> {
 	
 	// +====================================================================
 	
+	public Node<V> locate(Node node) {
+
+		Node<V> currentNode = null;
+		int depth = (int) Math.floor(Math.log(count) / Math.log(2));
+		int levelCap = (int) Math.pow(2, depth);
+		int treeCap = (int) Math.pow(2, depth + 1) - 1;
+		int foundNode = levelCap - (treeCap - count); // node's spot in level (offset)
+
+		while (depth > 0) {
+			if (foundNode % 2 == 1) { // it is left child
+				currentNode.left = node;
+			} else { // it is right child
+				currentNode.right = node;
+			}
+			// store path of either left or right
+			
+			depth--;
+		}
+
+		return node;
+	}	
+	
+	
 	public void add(V value) { 
 		
 		boolean modified = false;
